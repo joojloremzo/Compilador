@@ -234,7 +234,70 @@ public class CompiladorTela extends javax.swing.JFrame {
     }
 
     private void acaoCompilar() {
-        msgArea.setText("compilação de programas ainda não foi implementada");
+
+        String texto = editorArea.getText();
+
+        Lexico lexico = new Lexico(texto);
+
+        try {
+            Token token;
+
+            msgArea.setText("");
+
+            while ((token = lexico.nextToken()) != null) {
+
+                int linha = getLinha(texto, token.getPosition());
+                String classe = getClasseToken(token.getId());
+
+                msgArea.append("linha "
+                        + linha + " "
+                        + classe + " "
+                        + token.getLexeme() + "\n");
+            }
+
+            msgArea.append("programa compilado com sucesso");
+
+        } catch (LexicalError e) {
+
+            int pos = e.getPosition();
+            int linha = getLinha(texto, pos);
+
+            msgArea.setText("");
+
+            String msg = e.getMessage().toLowerCase();
+
+            // constante_string inválida (string aberta)
+            if (texto.contains("\"") && !texto.trim().endsWith("\"")) {
+                msgArea.setText("linha " + linha + ": constante_string inválida");
+                return;
+            }
+
+            // constante_float inválida (mais de um ponto)
+            if (texto.matches(".*\\d+\\.\\d+\\.\\d+.*")) {
+                msgArea.setText("linha " + linha + ": constante_float inválida");
+                return;
+            }
+
+            // identificador inválido
+            if (msg.contains("ident")) {
+                msgArea.setText("linha " + linha + ": identificador inválido");
+                return;
+            }
+
+            // símbolo inválido (caso geral)
+            if (msg.contains("caractere") || msg.contains("invalid")) {
+                if (pos < texto.length()) {
+                    char simbolo = texto.charAt(pos);
+                    msgArea.setText("linha " + linha + ": " + simbolo + " símbolo inválido");
+                } else {
+                    msgArea.setText("linha " + linha + ": símbolo inválido");
+                }
+                return;
+            }
+
+            // fallback
+            msgArea.setText("linha " + linha + ": erro léxico");
+        }
     }
 
     private void acaoEquipe() {
@@ -244,6 +307,55 @@ public class CompiladorTela extends javax.swing.JFrame {
                 + "João Carlos Krapp\n"
                 + "Lorenzo Zoboli"
         );
+    }
+
+    private int getLinha(String texto, int posicao) {
+        int linha = 1;
+
+        for (int i = 0; i < posicao && i < texto.length(); i++) {
+            if (texto.charAt(i) == '\n') {
+                linha++;
+            }
+        }
+
+        return linha;
+    }
+
+    private String getClasseToken(int id) {
+
+        // identificador
+        if (id == Constants.t_id) {
+            return "identificador";
+        }
+
+        // constantes
+        if (id == Constants.t_cte_int) {
+            return "constante_int";
+        }
+
+        if (id == Constants.t_cte_float) {
+            return "constante_float";
+        }
+
+        if (id == Constants.t_cte_char) {
+            return "constante_char";
+        }
+
+        if (id == Constants.t_cte_string) {
+            return "constante_string";
+        }
+
+        // palavras reservadas
+        if (id >= Constants.t_pr_ask && id <= Constants.t_pr_while) {
+            return "palavra reservada";
+        }
+
+        // símbolos especiais
+        if (id >= Constants.t_TOKEN_25 && id <= Constants.t_TOKEN_45) {
+            return "símbolo especial";
+        }
+
+        return "desconhecido";
     }
 
     /**
@@ -508,7 +620,7 @@ public class CompiladorTela extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
