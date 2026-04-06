@@ -1,2 +1,10 @@
-C:\Users\Lorenzo\Documents\NetBeansProjects\Compilador\src\main\java\compilador_pck\CompiladorTela.java
-C:\Users\Lorenzo\Documents\NetBeansProjects\Compilador\src\main\java\compilador_pck\NumberedBorder.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\AnalysisError.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\CompiladorTela.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\Constants.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\LexicalError.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\Lexico.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\NumberedBorder.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\ScannerConstants.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\SemanticError.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\SyntaticError.java
+C:\Users\Lorenzo\Downloads\Compilador\Compilador\src\main\java\compilador_pck\Token.java
