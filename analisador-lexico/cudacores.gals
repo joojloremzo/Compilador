@@ -1,0 +1,71 @@
+#Options
+GenerateScanner = true
+GenerateParser = false
+Language = Java
+ScannerName = Lexico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = String
+#RegularDefinitions
+min: [a-z]
+mai: [A-Z]
+digito: [0-9]
+conteudo_string: [^\n \" % \\]
+com_linha: #[^\n]*
+com_bloco: \{\n([^\{\}])*\n\}
+#Tokens
+id:! {min}({min}|_({digito})+)*
+cte_int:! {digito}+
+cte_float:! {digito}+\.{digito}+
+cte_char:! \\s | \\n | \\t
+cte_string:! \"({conteudo_string}|%x)*\"
+
+//palavras reservadas:
+pr_ask=id:"ask"
+pr_bool=id:"bool"
+pr_char=id:"char"
+pr_define=id:"define"
+pr_end=id:"end"
+pr_elif=id:"elif"
+pr_else=id:"else"
+pr_false=id:"false"
+pr_float=id:"float"
+pr_if=id:"if"
+pr_int=id:"int"
+pr_main=id:"main"
+pr_repeat=id:"repeat"
+pr_string=id:"string"
+pr_tell=id:"tell"
+pr_true=id:"true"
+pr_until=id:"until"
+pr_while=id:"while"
+
+//símbolos especiais:
+"("
+")"
+":"
+";"
+","
+"="
+"<-"
+"&&"
+"||"
+"!"
+"=="
+"!="
+"<"
+"<="
+">"
+">="
+"+"
+"-"
+"*"
+"/"
+"^"
+
+//caracteres de formatação:
+:[\n\s\t]
+
+//comentários:
+:!{com_linha}
+:!{com_bloco}
